@@ -2,7 +2,7 @@
 
 import copy
 
-## GRID SETUP / ENTRY ##
+## ---------- GRID SETUP / ENTRY ---------- ##
 
 def grid_Reset (side_Length):
     sudoku_Grid = []
@@ -45,7 +45,38 @@ def cell_Populate (sudoku_Grid):
 
     return (sudoku_Grid)
 
-## CALCULATION FUNCTIONS ##
+## ---------- GRID MANIPULATION TOOLS ---------- ##
+
+def to_Box (set):
+    temp_Box_1 = []
+    temp_Box_2 = []
+    temp_Box_3 = []
+    for set_Line in set:  ## this iterates for each line of the original List
+        temp_Box_1.append(set_Line[0:3])
+        temp_Box_2.append(set_Line[3:6])
+        temp_Box_3.append(set_Line[6:9])
+    return[temp_Box_1,temp_Box_2,temp_Box_3]
+
+def translate(Grid):
+    grid_Out = []
+    for index in range (0,3): # will have to add one to compensate for the weidr indexing
+        active_Set = Grid[(index*3):((index+1)*3)]
+
+        ## gotta get the formatting of the output list right
+
+        temp_List = []
+        for x in to_Box(active_Set):
+            for y in x:
+                for z in y:
+                    temp_List.append(z)
+            grid_Out.append(temp_List)
+            temp_List = []
+    return (grid_Out)
+
+## ---------- CALCULATION FUNCTIONS ---------- ##
+
+## Need to rebuild to do all at once, or  to work with the guess list because the square check will require this process to be all at once
+## for the squares, encode both guess list and numbers, and work that way for each sublist
 
 def defining_Cell_Values (sudoku_Grid, grid_Row, grid_Column):
     # This finction assumes an empty cell at [row][column] and checks the cells that defins what it is, returning a list.
@@ -68,7 +99,7 @@ def defining_Cell_Values (sudoku_Grid, grid_Row, grid_Column):
 
     # Defnining square
 
-    # Process: remake the sudoku_Grid_Guess in the form of 
+    # Process: remake the sudoku_Grid_Guess in the form of
 
     # Flipping Selection (see above)
     temp_List = [x for x in range (1,10)] # 1,2,..8,9
@@ -82,7 +113,7 @@ def defining_Cell_Values (sudoku_Grid, grid_Row, grid_Column):
 
 
 
-## PROGRAM BODY - SETUP ##
+## ---------- PROGRAM BODY - SETUP ---------- ##
 
 sudoku_Grid_Clean = grid_Reset(9)
 choice_Entry = 1
