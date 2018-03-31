@@ -26,7 +26,7 @@ def grid_Print (sudoku_Grid, side_Length):
 ## CALCULATION FUNCTIONS ##
 
 def defining_Cell_Values (sudoku_Grid, grid_Row, grid_Column):
-    # This finction assumes an empty cell at [row][column] and checks the cells that defins what it is, returning a list.
+    # This function assumes an empty cell at [row][column] and checks the cells that defins what it is, returning a list.
     # Operation in three parts: defining row, defining column, and defmining square (3X3).
     # Then it returns the inverse of that list (i.e. [1,2,5,6,9] are in the defining spaces, then returns [3,4,7,8] as possible values for that cell)
 
