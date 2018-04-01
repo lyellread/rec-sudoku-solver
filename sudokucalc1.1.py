@@ -134,8 +134,38 @@ def overlap (list1, list2):
                 output_List [row][column] = "X"
     return output_List
 
+def generate_Guess (sudoku_Grid_Clean):
+    sudoku_Grid_Guess_SQ = copy.deepcopy(sudoku_Grid_Clean)
+    sudoku_Grid_Guess_HV = copy.deepcopy(sudoku_Grid_Clean)
 
-## ---------- PROGRAM BODY - SETUP ---------- ##
+    sudoku_Grid_Guess_SQ = defining_Square_Values (sudoku_Grid_Clean, sudoku_Grid_Guess_SQ)
+
+    for row in range (0,9):
+        for column in range (0,9):
+            if sudoku_Grid_Clean [row][column] == " ":
+                sudoku_Grid_Guess_HV [row][column] = defining_Cell_Values (sudoku_Grid_Clean, row, column)
+            else:
+                sudoku_Grid_Guess_HV [row][column] = "X"
+
+    sudoku_Grid_Guess = overlap(sudoku_Grid_Guess_HV, sudoku_Grid_Guess_SQ)
+    return sudoku_Grid_Guess
+
+def interpret_Guess (sudoku_Guess):
+    found_Count = 0
+    for row in sudoku_Guess:
+        for y in row:
+            if len(y) == 1 and not y == "X":
+                found_Count+=1
+                print(y)
+                #list Comp !
+
+    # True: yes theres at least one that has one guess to it; False: None found, guess time!
+    if found_Count > 0:
+        return True
+    else:
+        return False
+
+## ---------- PROGRAM BODY - INPUT ---------- ##
 
 sudoku_Grid_Clean = grid_Reset(9)
 choice_Entry = 1
@@ -153,28 +183,12 @@ while not choice_Entry == 4:
 ########
 sudoku_Grid_Clean = [[5, ' ', 7, ' ', ' ', ' ', ' ', 4, ' '], [' ', 6, ' ', 7, ' ', 8, ' ', ' ', 9], [' ', ' ', 1, ' ', 8, ' ', ' ', ' ', ' '], [' ', 2, ' ', 4, ' ', 5, ' ', 6, ' '], [' ', 7, ' ', 8, ' ', ' ', 9, ' ', ' '], [5, ' ', ' ', 3, ' ', ' ', 2, ' ', 7], [' ', 2, ' ', ' ', 4, ' ', 3, ' ', 9], [9, ' ', 9, ' ', ' ', 6, ' ', 4, ' '], [' ', 6, ' ', 3, 6, 7, 5, 4, 6]]
 ########
+sudoku_Grid_Guess = generate_Guess(sudoku_Grid_Clean)
+if interpret_Guess(sudoku_Guess) == False:
+    # Going to have to guess one. Implement!
 
-sudoku_Grid_Guess_SQ = copy.deepcopy(sudoku_Grid_Clean)
-sudoku_Grid_Guess_HV = copy.deepcopy(sudoku_Grid_Clean)
-
-## SQ First
-
-sudoku_Grid_Guess_SQ = defining_Square_Values (sudoku_Grid_Clean, sudoku_Grid_Guess_SQ)
-#print (sudoku_Grid_Guess_SQ)
-
-## HV Next
-grid_Print(sudoku_Grid_Clean, 9)
-for row in range (0,9):
-    for column in range (0,9):
-        if sudoku_Grid_Clean [row][column] == " ":
-            sudoku_Grid_Guess_HV [row][column] = defining_Cell_Values (sudoku_Grid_Clean, row, column)
-        else:
-            sudoku_Grid_Guess_HV [row][column] = "X"
-
-sudoku_Grid_Guess = overlap(sudoku_Grid_Guess_HV, sudoku_Grid_Guess_SQ)
-
-print(sudoku_Grid_Guess)
-
+else: #True
+    implement_Guess (sudoku_Grid, sudoku_Guess)
 
 
 
