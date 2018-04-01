@@ -97,9 +97,6 @@ def defining_Cell_Values (sudoku_Grid, grid_Row, grid_Column):
         if not x in defining_List and not x == " ":
             defining_List.append(x)
 
-    # Defnining square
-
-    # Process: remake the sudoku_Grid_Guess in the form of
 
     # Flipping Selection (see above)
     temp_List = [x for x in range (1,10)] # 1,2,..8,9
@@ -110,24 +107,30 @@ def defining_Cell_Values (sudoku_Grid, grid_Row, grid_Column):
 
     return temp_List # WORKING!!
 
-def defining_Cross(sudoku_Grid, sudoku_Guess):
-    defining_List = []
-    for row in range(0,9):
-        for item in range(0,9): #item is also the column numbers
-            # Defnining Row / working
-            temp_List = sudoku_Grid [row]
-            for x in temp_List:
-                if not x in defining_List and not x == " ":
-                    defining_List.append(x)
-                    # Defining Column / working
-            temp_List = [value[item] for value in sudoku_Grid]
-            for x in temp_List:
-                if not x in defining_List and not x == " ":
-                    defining_List.append(x)
+def defining_Square_Values (sudoku_Grid, sudoku_Guess):
+    ## Entering the square zone
+    sudoku_Grid = translate(sudoku_Grid)
+    sudoku_Guess = translate(sudoku_Guess)
 
-                    sudoku_Guess [row][item] = defining_List
-                    defining_List = []
+    for square in range (0,9):
+        for item in range (0,9):
+        #defining_List = []
+            temp_List = [x for x in sudoku_Grid[square] if not x == ' ']
+            temp_List = list(set(temp_List))
+            print (sudoku_Grid)
+            print (temp_List)
+            if sudoku_Grid [square][item] == " ":
+                defining_List = [x for x in range (1,10)] # 1,2,..8,9
+                for x in temp_List:
+                        defining_List.remove(x)
+                sudoku_Guess [square][item] = defining_List
+
+    sudoku_Grid = translate(sudoku_Grid)
+    sudoku_Guess = translate(sudoku_Guess)
+
     return sudoku_Guess
+
+
 
 ## ---------- PROGRAM BODY - SETUP ---------- ##
 
@@ -153,14 +156,19 @@ sudoku_Grid_Guess_HV = copy.deepcopy(sudoku_Grid_Clean)
 
 
 ## >----invert guesslist-sq ---- square check, populate ---- invert guesslist-sq-----\
-                                                                                      >--- merge possibles ---- flip
+##                                                                                    >--- merge possibles ---- flip
 ## >----compile guesslist-hv --------------------------------------------------------/
 
 ## SQ First
 
+sudoku_Grid_Guess_SQ = defining_Square_Values (sudoku_Grid_Clean, sudoku_Grid_Guess_SQ)
+print (sudoku_Grid_Guess_SQ)
+
 #sudoku_Grid_Guess_SQ = defining_Square ()
 
 ## HV Next
-
-sudoku_Grid_Guess_HV = defining_Cross(sudoku_Grid_Clean, sudoku_Grid_Guess_HV)
+grid_Print(sudoku_Grid_Clean, 9)
+for row in range (0,9):
+    for column in range (0,9):
+        sudoku_Grid_Guess_HV [row][column] = defining_Cell_Values (sudoku_Grid_Clean, row, column)
 print(sudoku_Grid_Guess_HV)
