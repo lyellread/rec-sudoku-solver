@@ -1,4 +1,4 @@
-## Sudoku Basis / Nested Lists / Lyell Read / 3-12-2018
+## Sudoku Calc / Nested Lists / Lyell Read / 3-12-2018
 
 import copy
 
@@ -75,13 +75,7 @@ def translate(Grid):
 
 ## ---------- CALCULATION FUNCTIONS ---------- ##
 
-## Need to rebuild to do all at once, or  to work with the guess list because the square check will require this process to be all at once
-## for the squares, encode both guess list and numbers, and work that way for each sublist
-
 def defining_Cell_Values (sudoku_Grid, grid_Row, grid_Column):
-    # This function assumes an empty cell at [row][column] and checks the cells that defins what it is, returning a list.
-    # Operation in three parts: defining row, defining column, and defmining square (3X3).
-    # Then it returns the inverse of that list (i.e. [1,2,5,6,9] are in the defining spaces, then returns [3,4,7,8] as possible values for that cell)
 
     defining_List = []
     temp_List = []
@@ -117,19 +111,28 @@ def defining_Square_Values (sudoku_Grid, sudoku_Guess):
         #defining_List = []
             temp_List = [x for x in sudoku_Grid[square] if not x == ' ']
             temp_List = list(set(temp_List))
-            print (sudoku_Grid)
-            print (temp_List)
             if sudoku_Grid [square][item] == " ":
                 defining_List = [x for x in range (1,10)] # 1,2,..8,9
                 for x in temp_List:
                         defining_List.remove(x)
                 sudoku_Guess [square][item] = defining_List
-
+            else:
+                sudoku_Guess [square][item] = "X" # fill knowns with x to make new certain values easy to find...
+    # Exiting the square zone
     sudoku_Grid = translate(sudoku_Grid)
     sudoku_Guess = translate(sudoku_Guess)
 
     return sudoku_Guess
 
+def overlap (list1, list2):
+    output_List = grid_Reset (9)
+    for row in range(0,9):
+        for column in range(0,9):
+            if not list1 [row][column] == "X":
+                output_List [row][column] = list (set(list1 [row][column]) & set(list2[row][column]))
+            else:
+                output_List [row][column] = "X"
+    return output_List
 
 
 ## ---------- PROGRAM BODY - SETUP ---------- ##
@@ -154,21 +157,34 @@ sudoku_Grid_Clean = [[5, ' ', 7, ' ', ' ', ' ', ' ', 4, ' '], [' ', 6, ' ', 7, '
 sudoku_Grid_Guess_SQ = copy.deepcopy(sudoku_Grid_Clean)
 sudoku_Grid_Guess_HV = copy.deepcopy(sudoku_Grid_Clean)
 
-
-## >----invert guesslist-sq ---- square check, populate ---- invert guesslist-sq-----\
-##                                                                                    >--- merge possibles ---- flip
-## >----compile guesslist-hv --------------------------------------------------------/
-
 ## SQ First
 
 sudoku_Grid_Guess_SQ = defining_Square_Values (sudoku_Grid_Clean, sudoku_Grid_Guess_SQ)
-print (sudoku_Grid_Guess_SQ)
-
-#sudoku_Grid_Guess_SQ = defining_Square ()
+#print (sudoku_Grid_Guess_SQ)
 
 ## HV Next
 grid_Print(sudoku_Grid_Clean, 9)
 for row in range (0,9):
     for column in range (0,9):
-        sudoku_Grid_Guess_HV [row][column] = defining_Cell_Values (sudoku_Grid_Clean, row, column)
-print(sudoku_Grid_Guess_HV)
+        if sudoku_Grid_Clean [row][column] == " ":
+            sudoku_Grid_Guess_HV [row][column] = defining_Cell_Values (sudoku_Grid_Clean, row, column)
+        else:
+            sudoku_Grid_Guess_HV [row][column] = "X"
+
+sudoku_Grid_Guess = overlap(sudoku_Grid_Guess_HV, sudoku_Grid_Guess_SQ)
+
+print(sudoku_Grid_Guess)
+
+
+
+
+
+
+
+
+
+
+
+
+
+# just to have spare lines ;)
