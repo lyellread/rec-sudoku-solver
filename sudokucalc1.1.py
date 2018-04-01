@@ -79,7 +79,7 @@ def translate(Grid):
 ## for the squares, encode both guess list and numbers, and work that way for each sublist
 
 def defining_Cell_Values (sudoku_Grid, grid_Row, grid_Column):
-    # This finction assumes an empty cell at [row][column] and checks the cells that defins what it is, returning a list.
+    # This function assumes an empty cell at [row][column] and checks the cells that defins what it is, returning a list.
     # Operation in three parts: defining row, defining column, and defmining square (3X3).
     # Then it returns the inverse of that list (i.e. [1,2,5,6,9] are in the defining spaces, then returns [3,4,7,8] as possible values for that cell)
 
@@ -110,8 +110,24 @@ def defining_Cell_Values (sudoku_Grid, grid_Row, grid_Column):
 
     return temp_List # WORKING!!
 
+def defining_Cross(sudoku_Grid, sudoku_Guess):
+    defining_List = []
+    for row in range(0,9):
+        for item in range(0,9): #item is also the column numbers
+            # Defnining Row / working
+            temp_List = sudoku_Grid [row]
+            for x in temp_List:
+                if not x in defining_List and not x == " ":
+                    defining_List.append(x)
+                    # Defining Column / working
+            temp_List = [value[item] for value in sudoku_Grid]
+            for x in temp_List:
+                if not x in defining_List and not x == " ":
+                    defining_List.append(x)
 
-
+                    sudoku_Guess [row][item] = defining_List
+                    defining_List = []
+    return sudoku_Guess
 
 ## ---------- PROGRAM BODY - SETUP ---------- ##
 
@@ -127,21 +143,24 @@ while not choice_Entry == 4:
         sudoku_Grid_Clean = grid_Populate(sudoku_Grid_Clean, 9)
         print (sudoku_Grid_Clean)
 
-## PROGRAM BODY - CALCULATION ##
+## ---------- PROGRAM BODY - CALCULATION ---------- ##
 ########
 sudoku_Grid_Clean = [[5, ' ', 7, ' ', ' ', ' ', ' ', 4, ' '], [' ', 6, ' ', 7, ' ', 8, ' ', ' ', 9], [' ', ' ', 1, ' ', 8, ' ', ' ', ' ', ' '], [' ', 2, ' ', 4, ' ', 5, ' ', 6, ' '], [' ', 7, ' ', 8, ' ', ' ', 9, ' ', ' '], [5, ' ', ' ', 3, ' ', ' ', 2, ' ', 7], [' ', 2, ' ', ' ', 4, ' ', 3, ' ', 9], [9, ' ', 9, ' ', ' ', 6, ' ', 4, ' '], [' ', 6, ' ', 3, 6, 7, 5, 4, 6]]
 ########
-sudoku_Grid_Guess = copy.deepcopy(sudoku_Grid_Clean)
 
-for grid_Row in range (0,9):
-    for grid_Column in range (0,9):
-        cell_Guess = defining_Cell_Values(sudoku_Grid_Clean, grid_Row, grid_Column)
-        #grid_Print(sudoku_Grid_Clean, 9)
-        #grid_Print(sudoku_Grid_Guess, 9)
-        sudoku_Grid_Guess [grid_Row][grid_Column] = cell_Guess
+sudoku_Grid_Guess_SQ = copy.deepcopy(sudoku_Grid_Clean)
+sudoku_Grid_Guess_HV = copy.deepcopy(sudoku_Grid_Clean)
 
-print ("\n\n" + str(sudoku_Grid_Guess))
 
-#print(sudoku_Grid_Guess)
+## >----invert guesslist-sq ---- square check, populate ---- invert guesslist-sq-----\
+                                                                                      >--- merge possibles ---- flip
+## >----compile guesslist-hv --------------------------------------------------------/
 
-#make a copy of the knowns after asking if correct
+## SQ First
+
+#sudoku_Grid_Guess_SQ = defining_Square ()
+
+## HV Next
+
+sudoku_Grid_Guess_HV = defining_Cross(sudoku_Grid_Clean, sudoku_Grid_Guess_HV)
+print(sudoku_Grid_Guess_HV)
