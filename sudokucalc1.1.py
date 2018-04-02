@@ -150,18 +150,19 @@ def generate_Guess (sudoku_Grid_Clean):
     sudoku_Grid_Guess = overlap(sudoku_Grid_Guess_HV, sudoku_Grid_Guess_SQ)
     return sudoku_Grid_Guess
 
-def interpret_Guess (sudoku_Guess):
+def interpret_Fill_Guess (sudoku_Guess, sudoku_Grid_Clean):
     found_Count = 0
-    for row in sudoku_Guess:
-        for y in row:
-            if len(y) == 1 and not y == "X":
+    for row in range (0,9):
+        for y in range (0,9):
+            if len(sudoku_Guess[row][column]) == 1 and not sudoku_Guess[row][column] == "X":
                 found_Count+=1
-                print(y)
+                sudoku_Grid_Clean [row][column] = sudoku_Guess[row][column][0] # [0] there to go [#] --> #
+                print("Solved for Row: " + str(row) + ", Column: " + str(column) + " :: Changed to value: " + str(sudoku_Guess[row][column]) )
                 #list Comp !
 
     # True: yes theres at least one that has one guess to it; False: None found, guess time!
     if found_Count > 0:
-        return True
+        return sudoku_Grid_Clean
     else:
         return False
 
@@ -181,14 +182,24 @@ while not choice_Entry == 4:
 
 ## ---------- PROGRAM BODY - CALCULATION ---------- ##
 ########
-sudoku_Grid_Clean = [[5, ' ', 7, ' ', ' ', ' ', ' ', 4, ' '], [' ', 6, ' ', 7, ' ', 8, ' ', ' ', 9], [' ', ' ', 1, ' ', 8, ' ', ' ', ' ', ' '], [' ', 2, ' ', 4, ' ', 5, ' ', 6, ' '], [' ', 7, ' ', 8, ' ', ' ', 9, ' ', ' '], [5, ' ', ' ', 3, ' ', ' ', 2, ' ', 7], [' ', 2, ' ', ' ', 4, ' ', 3, ' ', 9], [9, ' ', 9, ' ', ' ', 6, ' ', 4, ' '], [' ', 6, ' ', 3, 6, 7, 5, 4, 6]]
+sudoku_Grid_Clean = [[5, ' ', 7, ' ', ' ', ' ', ' ', 4, ' '],
+                    [' ', 6, ' ', 7, ' ', 8, ' ', ' ', 9],
+                    [' ', ' ', 1, ' ', 8, ' ', ' ', ' ', ' '],
+                    [' ', 2, ' ', 4, ' ', 5, ' ', 6, ' '],
+                    [' ', 7, ' ', 8, ' ', ' ', 9, ' ', ' '],
+                    [5, ' ', ' ', 3, ' ', ' ', 2, ' ', 7],
+                    [' ', 2, ' ', ' ', 4, ' ', 3, ' ', 9],
+                    [9, ' ', 9, ' ', ' ', 6, ' ', 4, ' '],
+                    [' ', 6, ' ', 3, 6, 7, 5, 4, 6]]
 ########
 sudoku_Grid_Guess = generate_Guess(sudoku_Grid_Clean)
-if interpret_Guess(sudoku_Guess) == False:
+return_Val = interpret_Fill_Guess(sudoku_Grid_Guess, sudoku_Grid_Clean)
+if return_Val == False:
     # Going to have to guess one. Implement!
 
-else: #True
-    implement_Guess (sudoku_Grid, sudoku_Guess)
+else: #True, returned list
+    sudoku_Grid_Clean = return_Val
+
 
 
 
