@@ -150,27 +150,28 @@ def generate_Guess (sudoku_Grid_Clean):
     sudoku_Grid_Guess = overlap(sudoku_Grid_Guess_HV, sudoku_Grid_Guess_SQ)
     return sudoku_Grid_Guess
 
-    # True: yes theres at least one that has one guess to it; False: None found, guess time!
-    if found_Count > 0:
-        return sudoku_Grid_Clean
-    else:
-        return False
+def singleton_Input (sudoku_Grid, sudoku_Guess):
+    for x in range (0,9):
+        for y in range (0,9):
+            if len(sudoku_Guess [x][y]) == 1 and not sudoku_Guess[x][y] == "X" :
+                sudoku_Grid [x][y] = sudoku_Guess[x][y][0]
+    return sudoku_Guess
 
 def begin_Check (sudoku_Grid):
     sudoku_Guess = generate_Guess(sudoku_Grid)
 
-    #input all [X] values
+    singleton_Input(sudoku_Grid, sudoku_Guess)
 
     if [] in sudoku_Guess: # Broken branch - must quit
         print( "Broken Branch - Quitting" )
 
-        # --??-- how to break
+    return False
 
     elif len(max(sudoku_Guess, key=len)) == 1: ##Solved!!!
         print("Solved!")
-        grid_Print(sudoku_Guess)
-
-        # --??-- how to break
+        grid_Print(sudoku_Grid)
+        global answer_Grid = sudoku_Grid
+        return True
 
     else:
         #for each possible guess
@@ -180,6 +181,8 @@ def begin_Check (sudoku_Grid):
 
 
 ## ---------- PROGRAM BODY - INPUT ---------- ##
+
+answer_Grid = []
 
 sudoku_Grid_Clean = grid_Reset(9)
 choice_Entry = 1
@@ -203,7 +206,21 @@ sudoku_Grid_Clean = [[' ', 1, 7, ' ', ' ', ' ', 4, ' ', ' '],
                     [' ', ' ', 1, ' ', ' ', 5, ' ', 7, 3],
                     [2, 7, 6, 1, ' ', 4, ' ', ' ', 5],
                     [9, 3, 5, ' ', 6, ' ', ' ', 4, 2],
-                    [1, 4, 8, ' ', 5, 2, ' ', ' ', ' ']]
+                    [1, 4, 8, ' ', 5, 2, ' ', ' ', ' ']
+                    ]
+
+#sudoku_Guess = [[[8, 3, 5, 6], 'X', 'X', [2, 3, 5, 8, 9], [8, 2, 3], [8, 9, 3], 'X', [8, 9, 2, 6], [8, 9, 6]],
+#                [[8, 5], 'X', 'X', [8, 4, 5, 7], [8, 4, 7], 'X', 'X', [8], 'X'],
+#                [[8, 3, 6], [8, 6], 'X', [8, 9, 2, 3], 'X', [8, 9, 3], 'X', [8, 9, 2, 6], 'X'],
+#                ['X', [8, 9, 6], 'X', [8, 3, 6], [8, 3], 'X', [8, 9, 6], 'X', 'X'],
+#                ['X', 'X', 'X', [8, 6, 7], 'X', [8, 7], 'X', 'X', [8, 6]],
+#                [[8, 6], [8, 9, 6], 'X', [8, 2, 4, 6], [8, 2, 4], 'X', [8, 9, 6], 'X', 'X'],
+#                ['X', 'X', 'X', 'X', [8, 3], 'X', [8, 9], [8, 9, 3], 'X'],
+#                ['X', 'X', 'X', [8, 7], 'X', [8, 7], [8, 1, 7], 'X', 'X'],
+#                ['X', 'X', 'X', [9, 3, 7], 'X', 'X', [9, 6, 7], [9, 3, 6], [9, 6]]
+#
+
+                ]
 ########
 sudoku_Grid_Guess = generate_Guess(sudoku_Grid_Clean)
 
