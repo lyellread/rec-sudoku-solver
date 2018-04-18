@@ -158,6 +158,7 @@ def singleton_Input (sudoku_Grid, sudoku_Guess):
     return sudoku_Guess
 
 def begin_Check (sudoku_Grid):
+    print("Made it to check start")
     sudoku_Guess = generate_Guess(sudoku_Grid)
 
     sudoku_Grid = singleton_Input(sudoku_Grid, sudoku_Guess)
@@ -170,14 +171,21 @@ def begin_Check (sudoku_Grid):
     elif len(max(sudoku_Guess, key=len)) == 1: ##Solved!!!
         print("Solved!")
         grid_Print(sudoku_Grid)
-        global answer_Grid = sudoku_Grid
+        print( "ANSWER" + str(sudoku_Grid))
         return True
 
     else:
-        #for each possible guess
-	    #deepcopy the sudoku list
-        # alter that sudoku list deepcopy
-	    #do function with that guess list
+        for x in range (0,9):
+            for y in range (0,9):
+                if not sudoku_Guess [x][y] == "X":
+                    print(sudoku_Guess [x][y])
+                    for z in sudoku_Guess [x][y]:
+                        #copy; substitute; theoretical rerun -
+                        attempt_list = copy.deepcopy(sudoku_Grid_Clean)
+                        attempt_list [x][y] = z
+                        #print("Started branch, guessing" + str(attempt_list))
+                        begin_Check(attempt_list)
+
 
 
 ## ---------- PROGRAM BODY - INPUT ---------- ##
@@ -220,7 +228,7 @@ sudoku_Grid_Clean = [[' ', 1, 7, ' ', ' ', ' ', 4, ' ', ' '],
 #                ['X', 'X', 'X', [9, 3, 7], 'X', 'X', [9, 6, 7], [9, 3, 6], [9, 6]]]
 ########
 sudoku_Grid_Guess = generate_Guess(sudoku_Grid_Clean)
-
+begin_Check(sudoku_Grid_Clean)
 #print ([] in sudoku_Grid_Guess)
 
 
