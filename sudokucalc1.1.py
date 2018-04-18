@@ -160,12 +160,12 @@ def singleton_Input (sudoku_Grid, sudoku_Guess):
 def begin_Check (sudoku_Grid):
     sudoku_Guess = generate_Guess(sudoku_Grid)
 
-    singleton_Input(sudoku_Grid, sudoku_Guess)
+    sudoku_Grid = singleton_Input(sudoku_Grid, sudoku_Guess)
 
     if [] in sudoku_Guess: # Broken branch - must quit
         print( "Broken Branch - Quitting" )
 
-    return False
+        return False
 
     elif len(max(sudoku_Guess, key=len)) == 1: ##Solved!!!
         print("Solved!")
@@ -217,10 +217,7 @@ sudoku_Grid_Clean = [[' ', 1, 7, ' ', ' ', ' ', 4, ' ', ' '],
 #                [[8, 6], [8, 9, 6], 'X', [8, 2, 4, 6], [8, 2, 4], 'X', [8, 9, 6], 'X', 'X'],
 #                ['X', 'X', 'X', 'X', [8, 3], 'X', [8, 9], [8, 9, 3], 'X'],
 #                ['X', 'X', 'X', [8, 7], 'X', [8, 7], [8, 1, 7], 'X', 'X'],
-#                ['X', 'X', 'X', [9, 3, 7], 'X', 'X', [9, 6, 7], [9, 3, 6], [9, 6]]
-#
-
-                ]
+#                ['X', 'X', 'X', [9, 3, 7], 'X', 'X', [9, 6, 7], [9, 3, 6], [9, 6]]]
 ########
 sudoku_Grid_Guess = generate_Guess(sudoku_Grid_Clean)
 
