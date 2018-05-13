@@ -1,4 +1,9 @@
-## Sudoku Calc / Nested Lists / Lyell Read / 3-12-2018
+## ---------- SUDOKU SOLVER / LYELL READ ---------- ##
+## ----------  STARTED : March 12, 2018  ---------- ##
+
+## Existing Projects (to look over):
+## * https://github.com/aochagavia/Rust-Sudoku-Solver
+## * https://github.com/dado3212/Sudoku-Solver/
 
 import copy
 
@@ -9,7 +14,6 @@ def grid_Reset (side_Length):
     for grid_Row in range (0,side_Length):
         sudoku_Grid.append([0,0,0,0,0,0,0,0,0])
     return (sudoku_Grid)
-
 
 def grid_Print (sudoku_Grid, side_Length):
     print("|---|---|---|---|---|---|---|---|---|")
@@ -185,8 +189,6 @@ def begin_Check (sudoku_Grid):
                         attempt_list [x][y] = z
                         #print("Started branch, guessing" + str(attempt_list))
                         begin_Check(attempt_list)
-
-
 
 ## ---------- PROGRAM BODY - INPUT ---------- ##
 
