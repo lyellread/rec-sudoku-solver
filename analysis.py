@@ -61,6 +61,15 @@ def valid_guess (guess):
                 return True
     return False
 
+# [any_guess] - returns T if there are any available guesses, false if the grid is a dead end.
+
+def any_guess (guess):
+    for row in guess:
+        for cell in row:
+            if len(cell) >= 1: #check that guess length is greater than or equal to 1 which indicates presence of guesses.
+                return True
+    return False
+
 #[guess_substitute] - replaces empty cells if there is a valid guess for that cell
 
 def guess_substitute (grid, guess):

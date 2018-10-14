@@ -5,21 +5,21 @@ import analysis
 import sudokuio
 import edit
 
-#starter input
-
+# Fill the grid
 grid=sudokuio.grid_entry(edit.clear())
 
 
 breakout = False #set to true to break the while and continue on to deep guessing (BETA)
+
 while breakout == False and analysis.solved(grid) == False:
-    guess = analysis.guess_all(grid)
-    if analysis.valid_guess(guess) == True:
-        grid=analysis.guess_substitute(grid,guess)
+    guess = analysis.guess_all(grid) #Guess on all cells
+    if analysis.valid_guess(guess) == True: #If there is a successful guess...
+        grid=analysis.guess_substitute(grid,guess) #Substitute it into the right place!
     else:
-        breakout=True
+        breakout=True #there are no possible guesses. We'll have to go blind
 
 if breakout == True:
     print ("DEEP+GUESS+BETA")
-else:
+else: #analysis.solved == True
     print("YAY! I solved your puzzle. Here's what I got:\n")
     sudokuio.print_grid(grid)

@@ -44,6 +44,8 @@ def print_grid(grid):
         print("\n|---|---|---|---|---|---|---|---|---|")
     return 0
 
+# [grid_entry] - fill a grid with user input
+
 def grid_entry (grid):
     print ("Welcome to the Sudoku Solver.\nNote: `Deep Guessing` not supported at this time")
 
